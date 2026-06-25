@@ -1335,7 +1335,7 @@
     }
 
     .hero-copy {
-      bottom: 68px;
+      bottom: clamp(150px, 19svh, 178px);
       width: 100%;
     }
 
@@ -1349,7 +1349,7 @@
     }
 
     .hero-summary {
-      max-width: 74%;
+      max-width: 92%;
       margin-top: 30px;
       font-size: 13px;
       line-height: 1.7;
@@ -1357,7 +1357,7 @@
 
     .hero-project-link {
       right: 0;
-      bottom: 108px;
+      bottom: 82px;
       min-width: 154px;
       min-height: 50px;
       padding: 0 16px;

@@ -59,6 +59,7 @@ const CardSwap = forwardRef(function CardSwap({
   const containerRef = useRef(null);
   const pointerStartRef = useRef(null);
   const ignoreClickRef = useRef(false);
+  const isAnimatingRef = useRef(false);
   const [frontIndex, setFrontIndex] = useState(0);
 
   const resolveDistance = useCallback(() => {
@@ -78,28 +79,24 @@ const CardSwap = forwardRef(function CardSwap({
     });
   }, [refs, resolveDistance, verticalDistance]);
 
-  const promoteCard = useCallback((cardIndex, automatic = false) => {
-    const currentOrder = orderRef.current;
-    const currentFront = currentOrder[0];
+  const animateToOrder = useCallback((nextOrder, automatic = false, clickedIndex = null) => {
+    if (isAnimatingRef.current) return;
 
-    if (cardIndex === currentFront) {
-      if (!automatic) onCardClick?.(cardIndex, true);
-      return;
-    }
-
-    const selected = refs[cardIndex]?.current;
+    const selectedIndex = nextOrder[0];
+    const selected = refs[selectedIndex]?.current;
     if (!selected) return;
 
     timelineRef.current?.kill();
-    const nextOrder = [cardIndex, ...currentOrder.filter((index) => index !== cardIndex)];
+    isAnimatingRef.current = true;
     const distance = resolveDistance();
     const timeline = gsap.timeline({
       defaults: { ease: "power4.inOut" },
       onComplete: () => {
+        isAnimatingRef.current = false;
         orderRef.current = nextOrder;
-        setFrontIndex(cardIndex);
-        onActiveChange?.(cardIndex);
-        if (!automatic) onCardClick?.(cardIndex, false);
+        setFrontIndex(selectedIndex);
+        onActiveChange?.(selectedIndex);
+        if (!automatic && clickedIndex !== null) onCardClick?.(selectedIndex, false);
       },
     });
 
@@ -138,15 +135,40 @@ const CardSwap = forwardRef(function CardSwap({
     );
   }, [onActiveChange, onCardClick, refs, resolveDistance, verticalDistance]);
 
+  const promoteCard = useCallback((cardIndex, automatic = false) => {
+    const currentOrder = orderRef.current;
+    const currentFront = currentOrder[0];
+
+    if (cardIndex === currentFront) {
+      if (!automatic) onCardClick?.(cardIndex, true);
+      return;
+    }
+
+    animateToOrder(
+      [cardIndex, ...currentOrder.filter((index) => index !== cardIndex)],
+      automatic,
+      automatic ? null : cardIndex,
+    );
+  }, [animateToOrder, onCardClick]);
+
+  const rotateCards = useCallback((direction = 1, automatic = false) => {
+    const currentOrder = orderRef.current;
+    if (currentOrder.length < 2) return;
+
+    const nextOrder = direction > 0
+      ? [...currentOrder.slice(1), currentOrder[0]]
+      : [currentOrder[currentOrder.length - 1], ...currentOrder.slice(0, -1)];
+
+    animateToOrder(nextOrder, automatic);
+  }, [animateToOrder]);
+
   const showNext = useCallback(() => {
-    const nextIndex = orderRef.current[1];
-    if (nextIndex !== undefined) promoteCard(nextIndex);
-  }, [promoteCard]);
+    rotateCards(1);
+  }, [rotateCards]);
 
   const showPrevious = useCallback(() => {
-    const previousIndex = orderRef.current[orderRef.current.length - 1];
-    if (previousIndex !== undefined) promoteCard(previousIndex);
-  }, [promoteCard]);
+    rotateCards(-1);
+  }, [rotateCards]);
 
   useImperativeHandle(ref, () => ({
     next: showNext,
@@ -167,6 +189,7 @@ const CardSwap = forwardRef(function CardSwap({
 
     return () => {
       resizeObserver.disconnect();
+      isAnimatingRef.current = false;
       timelineRef.current?.kill();
     };
   }, [onActiveChange, positionCards, refs.length]);
@@ -177,8 +200,7 @@ const CardSwap = forwardRef(function CardSwap({
     const start = () => {
       window.clearInterval(intervalRef.current);
       intervalRef.current = window.setInterval(() => {
-        const nextIndex = orderRef.current[1];
-        promoteCard(nextIndex, true);
+        rotateCards(1, true);
       }, delay);
     };
     const stop = () => window.clearInterval(intervalRef.current);
@@ -197,7 +219,7 @@ const CardSwap = forwardRef(function CardSwap({
         container.removeEventListener("mouseleave", start);
       }
     };
-  }, [delay, pauseOnHover, promoteCard, refs.length]);
+  }, [delay, pauseOnHover, refs.length, rotateCards]);
 
   const handlePointerDown = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
