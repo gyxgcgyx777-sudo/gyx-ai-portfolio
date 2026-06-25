@@ -348,9 +348,9 @@ function Services() {
         <div className="services-head reveal">
           <div>
             <p className="section-kicker">Services / 可合作方向</p>
-            <h2 className="section-title">从 AIGC 视觉生成，<br />到 AE / PR 成片包装。</h2>
+            <h2 className="section-title">从 AIGC 视觉生成，<br />到完整成片交付。</h2>
           </div>
-          <p className="section-intro">面向品牌、电商、内容团队与创意项目，提供从 AIGC 视觉生成到 AE / PR 成片包装的商业视频制作服务。</p>
+          <p className="section-intro">面向品牌、电商、内容团队与创意项目，提供从 AIGC 视觉生成到完整成片交付的商业视频制作服务。</p>
         </div>
 
         <div className="service-grid reveal">

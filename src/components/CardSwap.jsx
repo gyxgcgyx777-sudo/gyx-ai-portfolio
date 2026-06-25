@@ -225,6 +225,7 @@ const CardSwap = forwardRef(function CardSwap({
     if (event.pointerType === "mouse" && event.button !== 0) return;
     pointerStartRef.current = {
       id: event.pointerId,
+      type: event.pointerType,
       x: event.clientX,
       y: event.clientY,
     };
@@ -240,6 +241,8 @@ const CardSwap = forwardRef(function CardSwap({
     const deltaY = event.clientY - start.y;
     pointerStartRef.current = null;
     event.currentTarget.releasePointerCapture?.(event.pointerId);
+
+    if (start.type === "mouse") return;
 
     if (Math.abs(deltaX) > 46 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35) {
       ignoreClickRef.current = true;
