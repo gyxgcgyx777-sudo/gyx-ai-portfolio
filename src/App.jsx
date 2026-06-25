@@ -8,84 +8,118 @@ const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\.\//, 
 
 const navItems = [
   { label: "About", target: "about" },
-  { label: "Projects", target: "projects" },
+  { label: "Services", target: "services" },
+  { label: "Work", target: "projects" },
   { label: "Strengths", target: "strengths" },
   { label: "Contact", target: "contact" },
 ];
 
 const projects = [
   {
-    title: "Demo Reel",
+    title: "DEMO REEL",
     type: "AIGC / Motion / Direction",
-    description: "AIGC 视觉作品与动态设计精选",
+    description: "汇总 AIGC 视觉生成、AE 合成、剪辑包装与商业视觉片段，展示从创意测试到成片输出的综合制作能力。",
     cover: assetPath("assets/covers/project-demo-reel.jpg"),
     video: assetPath("assets/videos/demo-reel.mp4"),
   },
   {
     title: "《下一位》",
     type: "Original Animation / AIGC",
-    description: "原创角色、世界观与电影化叙事探索",
+    description: "使用 AIGC 完成角色、场景搭建与氛围镜头探索，并结合剪辑节奏与声音设计，完成原创动画短片概念表达。",
     cover: assetPath("assets/covers/project-next-princess.jpg"),
     video: assetPath("assets/videos/next-princess.mp4"),
   },
   {
     title: "自在营养 TVC",
     type: "Commercial / Product Visual",
-    description: "面向消费品牌的产品视觉与广告表达",
+    description: "面向消费品牌的产品广告案例，围绕产品卖点、视觉质感与商业传播需求完成镜头设计、剪辑包装与成片输出。",
     cover: assetPath("assets/covers/project-nutrition-tvc.jpg"),
     video: assetPath("assets/videos/nutrition-tvc.mp4"),
   },
   {
     title: "漫剧特效案例",
     type: "Drama / Visual Effects",
-    description: "围绕剧情节奏设计的动态特效与合成",
+    description: "根据剧情节奏完成画面特效、镜头强化、动态元素与合成处理，提升漫剧内容的视觉冲击和观看节奏。",
     cover: assetPath("assets/covers/project-drama-fx.jpg"),
     video: assetPath("assets/videos/drama-fx.mp4"),
   },
   {
     title: "游戏 CG 演示",
     type: "Character / Concept Look",
-    description: "角色氛围、镜头语言与概念视觉实验",
+    description: "基于角色设定与世界观方向进行概念视觉开发，完成角色氛围、镜头节奏与 CG 风格展示。",
     cover: assetPath("assets/covers/project-game-cg.jpg"),
     video: assetPath("assets/videos/game-cg.mp4"),
   },
   {
     title: "原创 IP 潮流盲盒",
     type: "IP Design / Product Concept",
-    description: "从原创形象到产品展示的完整视觉概念",
+    description: "从 IP 角色设定、产品概念到展示视频，探索 AIGC 在潮玩、盲盒和品牌衍生品视觉开发中的应用。",
     cover: assetPath("assets/covers/project-ip-blindbox.jpg"),
     video: assetPath("assets/videos/ip-blindbox.mp4"),
   },
   {
     title: "实景 AI 合成",
     type: "Live Action / AI Composite",
-    description: "连接实拍素材与 AI 生成内容的合成实验",
+    description: "将实拍素材与 AI 生成元素结合，通过 AE 合成、调色、跟踪与镜头包装，完成更接近商业项目的混合影像效果。",
     cover: assetPath("assets/covers/project-live-composite.jpg"),
     video: assetPath("assets/videos/live-composite.mp4"),
   },
 ];
 
+const services = [
+  {
+    title: "AIGC 产品广告",
+    description: "适合护肤、美妆、食品、香氛、生活方式品牌，用 AI 生成产品场景和氛围镜头，并通过 AE / PR 完成商业广告成片。",
+    tags: "产品广告 / 电商视频 / 小红书 / 抖音",
+  },
+  {
+    title: "品牌短片 / 活动视觉",
+    description: "适合品牌发布、展会、年会、音乐视觉、开场片等项目，提供视觉风格设定、镜头设计、合成包装与最终输出。",
+    tags: "品牌短片 / 发布会 / 活动开场 / 视觉包装",
+  },
+  {
+    title: "短视频包装 / 信息流素材",
+    description: "适合抖音、小红书、视频号内容，提供广告短片、口播包装、字幕动效、卖点视觉化和多版本适配。",
+    tags: "短视频 / 信息流广告 / 字幕包装 / 口播包装",
+  },
+  {
+    title: "IP / 角色 / 概念视觉",
+    description: "适合原创 IP、游戏概念、潮玩盲盒、动画项目前期视觉探索，提供角色氛围、场景风格和概念视频展示。",
+    tags: "原创 IP / 角色视觉 / 游戏概念 / 潮玩视觉",
+  },
+];
+
 const strengths = [
   {
-    title: "视觉方向与审美判断",
-    description: "从品牌语境出发拆解风格、色彩和镜头表达，让生成结果服务于清晰的视觉目标。",
-    tools: "Visual Direction / Brand Tone",
+    title: "传统后期制作能力",
+    description: "熟悉 AE 合成、PR 剪辑、动效包装、字幕节奏、调色与成片输出，能够按照商业项目要求完成稳定交付。",
+    tools: "AE / Premiere / Photoshop / Motion Design",
   },
   {
-    title: "成熟的动态制作经验",
-    description: "多年动画、剪辑与合成经验，熟悉从脚本理解、节奏设计到成片交付的完整链路。",
-    tools: "AE / Premiere / Motion Craft",
+    title: "AIGC 视频生产能力",
+    description: "能将 Midjourney、可灵、Runway、即梦等工具接入制作流程，用于概念探索、镜头生成、风格测试、产品视觉和素材扩展。",
+    tools: "AIGC Workflow / Prompt / Image-to-Video",
   },
   {
-    title: "AI 视觉生产工作流",
-    description: "将提示词、参考图、角色一致性和镜头控制组织成可迭代、可复用的项目流程。",
-    tools: "Midjourney / Kling / Image2",
+    title: "商业视觉理解能力",
+    description: "能从品牌调性、受众、卖点和传播场景出发设计画面，而不是只追求好看，让视觉服务于项目目标。",
+    tools: "Brand Tone / Commercial Visual / Storytelling",
   },
   {
-    title: "创意到落地的连接力",
-    description: "理解项目目标与制作边界，在创意探索、效率和最终品质之间做有效判断。",
-    tools: "Concept / Pipeline / Delivery",
+    title: "从创意到交付的完整流程",
+    description: "具备从需求沟通、脚本理解、分镜规划、素材生成、剪辑合成到多平台输出的完整项目意识，适合团队协作与独立项目交付。",
+    tools: "Brief / Pipeline / Delivery",
   },
+];
+
+const contactTags = [
+  "全职岗位",
+  "项目外包",
+  "品牌商单",
+  "AIGC 视频制作",
+  "产品广告",
+  "短视频包装",
+  "远程协作",
 ];
 
 function scrollToSection(id) {
@@ -108,7 +142,7 @@ function Header({ activeSection, scrolled }) {
           }}
         >
           <span className="brand-mark">GYX</span>
-          <span className="brand-role">Visual & AI Designer</span>
+          <span className="brand-role">Motion / AIGC / Commercial Video</span>
         </a>
 
         <nav className="nav-links" aria-label="主导航">
@@ -194,12 +228,13 @@ function Hero() {
         </div>
 
         <div className="hero-copy reveal">
-          <p className="hero-taxonomy">Visual Designer&nbsp;&nbsp; / &nbsp;&nbsp;AI Designer&nbsp;&nbsp; / &nbsp;&nbsp;Brand Designer</p>
+          <p className="hero-taxonomy">Motion Designer&nbsp;&nbsp; / &nbsp;&nbsp;AIGC Visual Designer&nbsp;&nbsp; / &nbsp;&nbsp;Commercial Visual Designer</p>
           <div className="hero-title-mask">
             <h1>高煜翔</h1>
           </div>
+          <p className="hero-subtitle">动态视觉设计师 · AIGC 视频创作者</p>
           <p className="hero-summary">
-            将传统后期、动画合成与 AIGC 工作流融合，为品牌、内容与原创 IP 构建具有叙事感的视觉表达。
+            拥有多年 AE 合成、剪辑包装、二维动画与商业短片制作经验，现将 AIGC 融入视频生产流程，为品牌广告、产品视觉、IP 内容与短视频项目提供从创意、分镜、生成、合成到成片交付的完整视觉方案。
           </p>
         </div>
 
@@ -207,7 +242,7 @@ function Hero() {
           event.preventDefault();
           scrollToSection("projects");
         }}>
-          <span>查看精选项目</span>
+          <span>查看作品</span>
           <i className="icon-arrow icon-arrow--down" aria-hidden="true" />
         </a>
 
@@ -224,8 +259,9 @@ function About() {
         <div className="about-heading reveal">
           <div>
             <p className="section-kicker">About / 个人经历</p>
-            <h2 className="section-title">从后期制作<br />到 AI 视觉导演</h2>
+            <h2 className="section-title">从传统后期制作，<br />到 AIGC 商业影像创作</h2>
           </div>
+          <p className="section-intro">用成熟的制作经验控制质量，用 AI 工具提升视觉探索与内容生产效率。</p>
         </div>
 
         <div className="about-layout">
@@ -257,12 +293,15 @@ function About() {
           <BorderGlow className="about-glow about-copy-glow reveal" animated>
             <div className="about-copy">
               <div className="about-story">
-                <h3>以制作经验建立秩序，<br />以 AI 拓展视觉的边界。</h3>
+                <h3>高煜翔｜AE 动态设计师 · AIGC 视频创作者</h3>
                 <p>
-                  长期负责二维动画、AE 合成、剪辑包装、课程动画与商业定制短片，熟悉从脚本理解、视觉设计到成片输出的完整流程。
+                  长期参与二维动画、AE 合成、剪辑包装、课程动画、商业定制短片等项目，熟悉从脚本理解、画面设计、节奏剪辑、动效包装到最终输出的完整流程。
                 </p>
                 <p>
-                  目前专注 AIGC 视觉内容生产，擅长将生成工具接入实际制作，通过提示词优化与可复用工作流提升效率，并结合成熟的后期能力完成最终交付。
+                  目前我将 AIGC 工具接入传统后期流程，用于概念视觉、产品镜头、角色氛围、场景生成和视频素材扩展，并通过 AE / PR 完成合成、包装、节奏与商业交付。
+                </p>
+                <p>
+                  我希望寻找与动态设计、视频后期、AIGC 视觉、品牌广告内容相关的工作机会，也开放品牌短片、产品广告、IP 视觉、短视频包装等商业合作。
                 </p>
               </div>
 
@@ -278,20 +317,55 @@ function About() {
                   </div>
                   <div className="detail-row">
                     <span className="detail-label">Focus</span>
-                    <span className="detail-value">品牌视觉 / AIGC 影像 / 动态设计</span>
+                    <span className="detail-value">AE 动效包装 / AIGC 视频制作 / 商业短片 / 产品广告</span>
                   </div>
                   <div className="detail-row">
-                    <span className="detail-label">Status</span>
-                    <span className="detail-value">寻求合作中</span>
+                    <span className="detail-label">Open To</span>
+                    <span className="detail-value">全职机会 / 项目合作 / 品牌商单 / 远程协作</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Tools</span>
+                    <span className="detail-value">After Effects / Premiere Pro / Photoshop / Midjourney / Kling / Runway / 即梦 / 可灵</span>
+                  </div>
+                  <div className="detail-row">
+                    <span className="detail-label">Experience</span>
+                    <span className="detail-value">后期制作 / 动画合成 / 剪辑包装 / 商业视频交付</span>
                   </div>
                 </div>
 
                 <p className="about-summary">
-                  多年动态内容制作经验，持续探索视觉设计、品牌表达与生成式 AI 之间更有效的连接方式。
+                  Motion Designer / AIGC Visual Designer / Commercial Video Creator
                 </p>
               </div>
             </div>
           </BorderGlow>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Services() {
+  return (
+    <section className="services" id="services" data-section="services">
+      <div className="shell">
+        <div className="services-head reveal">
+          <div>
+            <p className="section-kicker">Services / 可合作方向</p>
+            <h2 className="section-title">从 AIGC 视觉生成，<br />到 AE / PR 成片包装。</h2>
+          </div>
+          <p className="section-intro">面向品牌、电商、内容团队与创意项目，提供从 AIGC 视觉生成到 AE / PR 成片包装的商业视频制作服务。</p>
+        </div>
+
+        <div className="service-grid reveal">
+          {services.map((item, index) => (
+            <article className="service-card" key={item.title}>
+              <span className="service-index">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <span className="service-tags">{item.tags}</span>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -351,10 +425,10 @@ function Projects({ onOpen }) {
       <div className="shell">
         <div className="projects-head reveal">
           <div>
-            <p className="section-kicker">Selected Work / 精选项目</p>
-            <h2 className="section-title">Moving ideas<br />into images.</h2>
+            <p className="section-kicker">Selected Work / 商业与 AIGC 视频案例</p>
+            <h2 className="section-title">商业与 AIGC<br />视频案例</h2>
           </div>
-          <p className="section-intro">横跨 AIGC 原创动画、品牌广告、游戏概念、IP 设计与实景合成。</p>
+          <p className="section-intro">覆盖品牌广告、产品视觉、原创动画、IP 概念、实景合成与动态包装，展示从 AI 生成到成片交付的完整能力。</p>
         </div>
 
         <div className="project-swap-stage reveal">
@@ -401,9 +475,9 @@ function Strengths() {
         <div className="advantages-head reveal">
           <div>
             <p className="section-kicker">Strengths / 个人优势</p>
-            <h2 className="section-title">不止生成画面，<br />更关心它为何成立。</h2>
+            <h2 className="section-title">不止生成画面，<br />更关心它如何成为可交付的商业成片。</h2>
           </div>
-          <p className="section-intro">把 AI 当作视觉生产的一部分，用设计判断和制作经验控制最终结果。</p>
+          <p className="section-intro">把 AI 当作视觉生产的一部分，用设计判断、后期经验和商业意识控制最终结果。</p>
         </div>
 
         <div className="advantage-grid reveal">
@@ -427,18 +501,32 @@ function Contact() {
         <p className="section-kicker">Contact / 联系合作</p>
         <h2 className="contact-title">Let’s create<br />what’s next.</h2>
         <div className="contact-action">
-          <p className="contact-copy">如果你正在寻找一位同时理解传统制作流程与 AIGC 视觉生成的设计师，可以从一封邮件开始。</p>
-          <div className="contact-primary-group">
-            <a className="contact-primary contact-primary--email" href="mailto:gyxgcgyx@outlook.com">
-              gyxgcgyx@outlook.com
-            </a>
-            <a className="contact-primary contact-primary--phone" href="tel:18519665717">
-              +86 185 **** 5717
-            </a>
+          <div>
+            <p className="contact-copy">正在寻找视频设计师、AE 动效师、AIGC 视觉创作者，或需要品牌广告、产品短片、IP 视觉、短视频包装等项目合作，欢迎联系我。</p>
+            <div className="contact-tags">
+              {contactTags.map((tag) => <span key={tag}>{tag}</span>)}
+            </div>
+          </div>
+          <div className="contact-panel">
+            <div className="contact-primary-group">
+              <a className="contact-primary contact-primary--email" href="mailto:gyxgcgyx@outlook.com">
+                gyxgcgyx@outlook.com
+              </a>
+              <a className="contact-primary contact-primary--phone" href="tel:18519665717">
+                +86 185 **** 5717
+              </a>
+            </div>
+            <div className="contact-buttons">
+              <a className="contact-button contact-button--primary" href="mailto:gyxgcgyx@outlook.com">发送邮件</a>
+              <a className="contact-button" href="#projects" onClick={(event) => {
+                event.preventDefault();
+                scrollToSection("projects");
+              }}>查看作品集</a>
+            </div>
           </div>
         </div>
         <div className="contact-footer">
-          <span>高煜翔 / Visual & AI Designer</span>
+          <span>高煜翔 / AE Motion Designer · AIGC Video Creator</span>
           <span>© 2026 Portfolio</span>
         </div>
       </div>
@@ -562,6 +650,7 @@ function App() {
       <main>
         <Hero />
         <About />
+        <Services />
         <Projects onOpen={setSelectedProjectIndex} />
         <Strengths />
       </main>

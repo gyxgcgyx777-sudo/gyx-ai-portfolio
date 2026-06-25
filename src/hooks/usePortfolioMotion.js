@@ -41,11 +41,12 @@ export default function usePortfolioMotion(scopeRef) {
         ".site-header",
         ".hero-topline",
         ".hero-taxonomy",
+        ".hero-subtitle",
         ".hero-summary",
         ".hero-project-link",
         ".hero-scroll",
       ], { autoAlpha: 0 });
-      gsap.set([".hero-taxonomy", ".hero-summary", ".hero-project-link", ".hero-scroll"], { y: 34 });
+      gsap.set([".hero-taxonomy", ".hero-subtitle", ".hero-summary", ".hero-project-link", ".hero-scroll"], { y: 34 });
 
       openingTimeline
         .to(".opening-line-half", { scaleX: 1, duration: 0.9, ease: "power3.inOut" })
@@ -64,13 +65,14 @@ export default function usePortfolioMotion(scopeRef) {
         .to(".hero-media", { scale: 1, duration: 2.7, ease: "power3.out" }, 1.04)
         .to(".hero-title-mask h1", { yPercent: 0, scaleX: 1, duration: 1.7, ease: "expo.out" }, 1.34)
         .to(".hero-taxonomy", { autoAlpha: 1, y: 0, duration: 1.15 }, 1.67)
-        .to(".hero-summary", { autoAlpha: 1, y: 0, duration: 1.2 }, 1.84)
-        .to(".hero-project-link", { autoAlpha: 1, y: 0, duration: 1.2 }, 2)
-        .to(".hero-scroll", { autoAlpha: 1, y: 0, duration: 1 }, 2.14)
+        .to(".hero-subtitle", { autoAlpha: 1, y: 0, duration: 1.15 }, 1.76)
+        .to(".hero-summary", { autoAlpha: 1, y: 0, duration: 1.2 }, 1.92)
+        .to(".hero-project-link", { autoAlpha: 1, y: 0, duration: 1.2 }, 2.08)
+        .to(".hero-scroll", { autoAlpha: 1, y: 0, duration: 1 }, 2.2)
         .to([".site-header", ".hero-topline"], { autoAlpha: 1, duration: 1.1 }, 1.9)
         .to(".opening-screen", { autoAlpha: 0, duration: 0.3 }, 2.5);
 
-      gsap.utils.toArray(".about-heading, .projects-head, .advantages-head").forEach((heading) => {
+      gsap.utils.toArray(".about-heading, .services-head, .projects-head, .advantages-head").forEach((heading) => {
         const kicker = heading.querySelector(".section-kicker");
         const title = heading.querySelector(".section-title");
         const intro = heading.querySelector(".section-intro");
@@ -135,6 +137,19 @@ export default function usePortfolioMotion(scopeRef) {
           ease: smoothEase,
         }, 0.72)
         .from(".about-summary", { y: 42, autoAlpha: 0, duration: 1.1, ease: smoothEase }, 0.98);
+
+      gsap.from(".service-card", {
+        y: 120,
+        autoAlpha: 0,
+        stagger: 0.14,
+        duration: 1.35,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: ".service-grid",
+          start: "top 82%",
+          once: true,
+        },
+      });
 
       gsap.from(".project-swap-stage", {
         y: 120,

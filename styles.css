@@ -401,12 +401,20 @@
   }
 
   .hero-summary {
-    max-width: 520px;
-    margin-top: 46px;
+    max-width: 760px;
+    margin-top: 28px;
     color: var(--muted);
     font-size: clamp(14px, 1vw, 18px);
     line-height: 1.8;
     text-wrap: pretty;
+  }
+
+  .hero-subtitle {
+    margin-top: 12px;
+    color: var(--text);
+    font-size: clamp(18px, 1.55vw, 30px);
+    font-weight: 500;
+    letter-spacing: 0.04em;
   }
 
   .hero-project-link {
@@ -748,6 +756,96 @@
     text-wrap: pretty;
   }
 
+  .services {
+    position: relative;
+    overflow: hidden;
+    padding: var(--section-space) 0;
+    background:
+      linear-gradient(180deg, rgba(9, 13, 17, 0.94), rgba(5, 6, 7, 1)),
+      var(--bg);
+  }
+
+  .services::before {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(255, 90, 0, 0.09), transparent 34%),
+      linear-gradient(180deg, rgba(139, 207, 255, 0.08), transparent 42%);
+    content: "";
+    pointer-events: none;
+  }
+
+  .services-head {
+    position: relative;
+    display: grid;
+    align-items: end;
+    gap: 80px;
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+
+  .service-grid {
+    position: relative;
+    display: grid;
+    margin-top: clamp(70px, 8vw, 128px);
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .service-card {
+    position: relative;
+    display: flex;
+    min-height: 390px;
+    flex-direction: column;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 28px;
+    background: rgba(8, 12, 16, 0.48);
+    transition:
+      background 320ms ease,
+      border-color 320ms ease,
+      transform 420ms var(--ease);
+  }
+
+  .service-card:hover {
+    border-color: rgba(255, 90, 0, 0.58);
+    background: rgba(255, 90, 0, 0.08);
+    transform: translateY(-6px);
+  }
+
+  .service-index {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
+  .service-card h3 {
+    margin-top: 84px;
+    font-size: clamp(24px, 1.85vw, 34px);
+    font-weight: 500;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  .service-card p {
+    margin-top: 26px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.85;
+    text-wrap: pretty;
+  }
+
+  .service-tags {
+    margin-top: auto;
+    padding-top: 42px;
+    color: var(--quiet);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+    text-transform: uppercase;
+  }
+
   .projects {
     padding: var(--section-space) 0;
     background: var(--bg);
@@ -855,7 +953,7 @@
 
   .project-info {
     display: flex;
-    min-height: 116px;
+    min-height: clamp(136px, 8.4vw, 156px);
     align-items: flex-end;
     justify-content: space-between;
     border-top: 1px solid var(--line);
@@ -871,9 +969,11 @@
   }
 
   .project-info p {
+    max-width: 640px;
     margin-top: 8px;
     color: var(--muted);
     font-size: 12px;
+    line-height: 1.65;
   }
 
   .project-open {
@@ -1129,6 +1229,61 @@
     gap: 22px;
   }
 
+  .contact-panel {
+    width: min(100%, 620px);
+  }
+
+  .contact-tags {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 680px;
+    margin-top: 34px;
+    gap: 10px;
+  }
+
+  .contact-tags span {
+    border: 1px solid var(--line);
+    padding: 8px 12px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .contact-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 34px;
+    gap: 14px;
+  }
+
+  .contact-button {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line-strong);
+    padding: 0 20px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    transition:
+      background 220ms ease,
+      border-color 220ms ease,
+      color 220ms ease,
+      transform 260ms var(--ease);
+  }
+
+  .contact-button:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .contact-button--primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+
   .contact-primary {
     position: relative;
     padding-bottom: 12px;
@@ -1277,6 +1432,7 @@
     }
 
     .about-heading,
+    .services-head,
     .advantages-head {
       grid-template-columns: 1fr;
     }
@@ -1301,6 +1457,10 @@
     }
 
     .advantage-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .service-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
@@ -1335,7 +1495,7 @@
     }
 
     .hero-copy {
-      bottom: clamp(150px, 19svh, 178px);
+      bottom: clamp(138px, 17svh, 164px);
       width: 100%;
     }
 
@@ -1348,11 +1508,17 @@
       font-size: clamp(64px, 20vw, 82px);
     }
 
+    .hero-subtitle {
+      margin-top: 8px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
     .hero-summary {
-      max-width: 92%;
-      margin-top: 30px;
-      font-size: 13px;
-      line-height: 1.7;
+      max-width: 100%;
+      margin-top: 18px;
+      font-size: 12px;
+      line-height: 1.65;
     }
 
     .hero-project-link {
@@ -1376,6 +1542,10 @@
       grid-template-columns: 1fr;
     }
 
+    .about-story p {
+      margin-top: 22px;
+    }
+
     .about-details {
       grid-template-columns: 1fr;
     }
@@ -1392,6 +1562,22 @@
 
     .projects-head {
       display: grid;
+    }
+
+    .services-head {
+      gap: 34px;
+    }
+
+    .service-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .service-card {
+      min-height: 310px;
+    }
+
+    .service-card h3 {
+      margin-top: 54px;
     }
 
     .project-swap-stage {
@@ -1472,6 +1658,14 @@
       align-items: start;
       flex-direction: column;
       gap: 48px;
+    }
+
+    .contact-tags {
+      margin-top: 28px;
+    }
+
+    .contact-buttons {
+      margin-top: 28px;
     }
 
     .contact-primary {
