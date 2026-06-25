@@ -228,7 +228,15 @@ function Hero() {
         </div>
 
         <div className="hero-copy reveal">
-          <p className="hero-taxonomy">Motion Designer&nbsp;&nbsp; / &nbsp;&nbsp;AIGC Visual Designer&nbsp;&nbsp; / &nbsp;&nbsp;Commercial Visual Designer</p>
+          <p className="hero-taxonomy">
+            <span>Motion Designer</span>
+            <span className="taxonomy-separator">/</span>
+            <span>AIGC Visual Designer</span>
+            <span className="taxonomy-extra">
+              <span className="taxonomy-separator">/</span>
+              <span>Commercial Visual Designer</span>
+            </span>
+          </p>
           <div className="hero-title-mask">
             <h1>高煜翔</h1>
           </div>
@@ -259,7 +267,7 @@ function About() {
         <div className="about-heading reveal">
           <div>
             <p className="section-kicker">About / 个人经历</p>
-            <h2 className="section-title">从传统后期制作，<br />到 AIGC 商业影像创作</h2>
+            <h2 className="section-title">从传统后期制作<br />到AIGC影像创作</h2>
           </div>
           <p className="section-intro">用成熟的制作经验控制质量，用 AI 工具提升视觉探索与内容生产效率。</p>
         </div>
