@@ -4,6 +4,8 @@ import CardSwap, { Card } from "./components/CardSwap.jsx";
 import TiltedCard from "./components/TiltedCard.jsx";
 import usePortfolioMotion from "./hooks/usePortfolioMotion.js";
 
+const assetPath = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\.\//, "")}`;
+
 const navItems = [
   { label: "About", target: "about" },
   { label: "Projects", target: "projects" },
@@ -16,50 +18,50 @@ const projects = [
     title: "Demo Reel",
     type: "AIGC / Motion / Direction",
     description: "AIGC 视觉作品与动态设计精选",
-    cover: "./assets/covers/project-demo-reel.jpg",
-    video: "./AI作品集/高煜翔DEMOREEL.mp4",
+    cover: assetPath("assets/covers/project-demo-reel.jpg"),
+    video: assetPath("assets/videos/demo-reel.mp4"),
   },
   {
     title: "《下一位》",
     type: "Original Animation / AIGC",
     description: "原创角色、世界观与电影化叙事探索",
-    cover: "./assets/covers/project-next-princess.jpg",
-    video: "./AI作品集/下一位AIGC原创动画.mp4",
+    cover: assetPath("assets/covers/project-next-princess.jpg"),
+    video: assetPath("assets/videos/next-princess.mp4"),
   },
   {
     title: "自在营养 TVC",
     type: "Commercial / Product Visual",
     description: "面向消费品牌的产品视觉与广告表达",
-    cover: "./assets/covers/project-nutrition-tvc.jpg",
-    video: "./AI作品集/自在营养TVC广告.mp4",
+    cover: assetPath("assets/covers/project-nutrition-tvc.jpg"),
+    video: assetPath("assets/videos/nutrition-tvc.mp4"),
   },
   {
     title: "漫剧特效案例",
     type: "Drama / Visual Effects",
     description: "围绕剧情节奏设计的动态特效与合成",
-    cover: "./assets/covers/project-drama-fx.jpg",
-    video: "./AI作品集/漫剧特效案例.mp4",
+    cover: assetPath("assets/covers/project-drama-fx.jpg"),
+    video: assetPath("assets/videos/drama-fx.mp4"),
   },
   {
     title: "游戏 CG 演示",
     type: "Character / Concept Look",
     description: "角色氛围、镜头语言与概念视觉实验",
-    cover: "./assets/covers/project-game-cg.jpg",
-    video: "./AI作品集/游戏CG演示.mp4",
+    cover: assetPath("assets/covers/project-game-cg.jpg"),
+    video: assetPath("assets/videos/game-cg.mp4"),
   },
   {
     title: "原创 IP 潮流盲盒",
     type: "IP Design / Product Concept",
     description: "从原创形象到产品展示的完整视觉概念",
-    cover: "./assets/covers/project-ip-blindbox.jpg",
-    video: "./AI作品集/原创IP潮流盲盒案例.mp4",
+    cover: assetPath("assets/covers/project-ip-blindbox.jpg"),
+    video: assetPath("assets/videos/ip-blindbox.mp4"),
   },
   {
     title: "实景 AI 合成",
     type: "Live Action / AI Composite",
     description: "连接实拍素材与 AI 生成内容的合成实验",
-    cover: "./assets/covers/project-live-composite.jpg",
-    video: "./AI作品集/实景AI合成案例.mp4",
+    cover: assetPath("assets/covers/project-live-composite.jpg"),
+    video: assetPath("assets/videos/live-composite.mp4"),
   },
 ];
 
@@ -142,8 +144,8 @@ function Hero() {
         loop
         muted
         playsInline
-        poster="./assets/fallback/hero-poster.jpg"
-        src="./assets/hero-scroll.mp4"
+        poster={assetPath("assets/fallback/hero-poster.jpg")}
+        src={assetPath("assets/hero-scroll.mp4")}
       />
       <div className="hero-shade" aria-hidden="true" />
       <div className="hero-noise" aria-hidden="true" />
@@ -207,7 +209,7 @@ function About() {
               <div className="identity-panel">
                 <img
                   className="identity-portrait"
-                  src="./assets/profile/gyx-character-card.png"
+                  src={assetPath("assets/profile/gyx-character-card.png")}
                   alt="高煜翔 GYX 角色人物卡"
                 />
               </div>

@@ -1,8 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { cpSync, existsSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
 
 const appRoot = fileURLToPath(new URL(".", import.meta.url));
+const sourceAssets = fileURLToPath(new URL("./assets", import.meta.url));
+const buildAssets = fileURLToPath(new URL("./dist/assets", import.meta.url));
 
 function getGitHubPagesBase() {
   const repository = process.env.GITHUB_REPOSITORY;
@@ -14,10 +17,21 @@ function getGitHubPagesBase() {
   return repo.toLowerCase() === `${owner.toLowerCase()}.github.io` ? "/" : `/${repo}/`;
 }
 
+function copyStaticAssets() {
+  return {
+    name: "copy-static-assets",
+    closeBundle() {
+      if (existsSync(sourceAssets)) {
+        cpSync(sourceAssets, buildAssets, { recursive: true });
+      }
+    },
+  };
+}
+
 export default defineConfig({
   root: appRoot,
   base: process.env.GITHUB_ACTIONS ? getGitHubPagesBase() : "/",
-  plugins: [react()],
+  plugins: [react(), copyStaticAssets()],
   server: {
     host: "127.0.0.1",
     port: 5174,
