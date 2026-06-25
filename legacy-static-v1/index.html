@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="高煜翔 - AI Video Designer / AIGC Visual Storyteller portfolio.">
+  <title>高煜翔 | AI Video Designer</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="video-stage" aria-hidden="true">
+    <img class="poster-backdrop" src="./assets/fallback/hero-poster.jpg" alt="">
+    <video
+      id="background-video"
+      class="background-video"
+      muted
+      playsinline
+      preload="metadata"
+      poster="./assets/fallback/hero-poster.jpg"
+    ></video>
+    <img id="final-frame" class="final-frame" src="./assets/fallback/final-frame.jpg" alt="">
+    <div class="silver-wash"></div>
+    <div class="grain"></div>
+  </div>
+
+  <header class="topbar" aria-label="Site navigation">
+    <a class="brand" href="#hero" aria-label="Back to top">
+      <span>GYX</span>
+      <small>AI DESIGNER</small>
+    </a>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="scroll-root">
+    <section id="hero" class="panel hero-panel" data-section="01">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">AI Video Designer / AIGC Visual Storyteller</p>
+        <h1>高煜翔</h1>
+        <p class="hero-lede">
+          以多年视频内容制作经验为底盘，将传统后期、动画合成、镜头语言与 AIGC 工作流融合，构建面向品牌、内容和原创 IP 的视觉叙事。
+        </p>
+        <p class="hero-lede english">
+          Building cinematic AI visuals with production discipline, motion design craft, and prompt-driven iteration.
+        </p>
+      </div>
+      <div class="hero-proof reveal" aria-label="Portfolio highlights">
+        <span>13 Years Production</span>
+        <span>800+ Min Course Animation</span>
+        <span>AIGC Video Workflow</span>
+      </div>
+    </section>
+
+    <section id="about" class="panel content-panel align-right" data-section="02">
+      <article class="glass-card reveal">
+        <p class="eyebrow">About / 关于</p>
+        <h2 class="about-title"><span>从后期制作</span><span>到 AI 视觉导演</span></h2>
+        <p>
+          长期负责二维动画、AE 合成、剪辑包装、课程动画与商业定制短片，熟悉从脚本理解、视觉设计到成片输出的完整流程。
+        </p>
+        <p>
+          目前专注 AIGC 视觉内容生产，擅长将即梦、可灵、Image2、Midjourney、ChatGPT、Codex 等 AI 工具接入实际制作，通过 Prompt 优化、可复用工作流提升视觉生成效率，结合后期软件合成包装与成片交付。
+        </p>
+      </article>
+    </section>
+
+    <section id="timeline" class="panel content-panel align-left" data-section="03">
+      <article class="glass-card timeline-card reveal">
+        <p class="eyebrow">Timeline / 经历</p>
+        <ol class="timeline">
+          <li>
+            <time>2013 - 2016</time>
+            <strong>《冷知识》后期制作</strong>
+            <span>腾讯视频联合出品知识短视频，手绘画面合成、剪辑、音画同步与统一视觉风格。</span>
+          </li>
+          <li>
+            <time>2016 - 2018</time>
+            <strong>《真相大白话》动画合成</strong>
+            <span>参与创意策划、栏目包装和独立合成出片，单期获得 1400 万+播放成绩。</span>
+          </li>
+          <li>
+            <time>2018 - 2020</time>
+            <strong>汽车之家《漫车记》</strong>
+            <span>商业定制动画短视频，匹配品牌调性、产品卖点与平台内容规范。</span>
+          </li>
+          <li>
+            <time>2020 - 2026</time>
+            <strong>斑马 Ai 学动画设计师</strong>
+            <span>负责多学科在线课程动画制作与后期合成，累计交付 800+ 分钟课程动画；参与外包协作流程、制作规范与质量验收标准建设，保障课程内容稳定、高效交付。</span>
+          </li>
+          <li>
+            <time>Now</time>
+            <strong>AIGC Video Designer</strong>
+            <span>探索 AIGC 在 TVC 广告、短剧影像、三维动画、视觉概念、原创 IP 与儿童教育内容中的生产应用，结合 AI 生成工具与后期制作流程，完成从创意探索、视觉生成到成片包装的内容产出。</span>
+          </li>
+        </ol>
+      </article>
+    </section>
+
+    <section id="skills" class="panel content-panel align-right" data-section="04">
+      <article class="glass-card reveal">
+        <p class="eyebrow">Skills / 能力</p>
+        <h2 class="skills-title"><span>连接AI工具与项目需求</span><span>以制作经验驱动产品落地</span></h2>
+        <div class="skill-groups">
+          <div>
+            <h3>Motion Craft</h3>
+            <p>After Effects, Premiere, Photoshop, Illustrator, 剪映, 视频合成, 剪辑包装, 音画同步。</p>
+          </div>
+          <div>
+            <h3>AI Pipeline</h3>
+            <p>Midjourney, 即梦, 可灵, Image2, NanoBanana, ChatGPT, Codex, 参考图反推, 提示词优化。</p>
+          </div>
+          <div>
+            <h3>Visual Direction</h3>
+            <p>角色一致性、镜头语言描述、风格关键词拆解、画面表现和审美表达。</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="projects" class="panel projects-panel" data-section="05">
+      <div class="projects-head reveal">
+        <p class="eyebrow">Projects / 作品</p>
+        <h2>Selected Moving Images</h2>
+      </div>
+      <div class="project-grid reveal" aria-label="Selected projects">
+        <button class="project-card wide" data-video="../AI作品集/高煜翔DEMOREEL.mp4" type="button">
+          <img src="./assets/covers/project-demo-reel.jpg" alt="高煜翔 Demo Reel cover">
+          <span>Demo Reel</span>
+          <small>AIGC visual portfolio selection</small>
+        </button>
+        <button class="project-card wide" data-video="../AI作品集/漫剧特效案例.mp4" type="button">
+          <img src="./assets/covers/project-drama-fx.jpg" alt="漫剧特效案例 cover">
+          <span>漫剧特效案例</span>
+          <small>Short drama visual effects</small>
+        </button>
+        <button class="project-card wide" data-video="../AI作品集/下一位AIGC原创动画.mp4" type="button">
+          <img src="./assets/covers/project-next-princess.jpg" alt="下一位 AIGC 原创动画 cover">
+          <span>《下一位》AIGC 原创动画</span>
+          <small>Original AIGC animation</small>
+        </button>
+        <button class="project-card" data-video="../AI作品集/自在营养TVC广告.mp4" type="button">
+          <img src="./assets/covers/project-nutrition-tvc.jpg" alt="自在营养 TVC 广告 cover">
+          <span>自在营养 TVC 广告</span>
+          <small>Commercial product visual</small>
+        </button>
+        <button class="project-card" data-video="../AI作品集/游戏CG演示.mp4" type="button">
+          <img src="./assets/covers/project-game-cg.jpg" alt="游戏 CG 演示 cover">
+          <span>游戏 CG 演示</span>
+          <small>Character and concept look</small>
+        </button>
+        <button class="project-card portrait" data-video="../AI作品集/原创IP潮流盲盒案例.mp4" type="button">
+          <img src="./assets/covers/project-ip-blindbox.jpg" alt="原创 IP 潮流盲盒案例 cover">
+          <span>原创 IP 潮流盲盒案例</span>
+          <small>Original IP product concept</small>
+        </button>
+        <button class="project-card portrait" data-video="../AI作品集/实景AI合成案例.mp4" type="button">
+          <img src="./assets/covers/project-live-composite.jpg" alt="实景 AI 合成案例 cover">
+          <span>实景 AI 合成案例</span>
+          <small>Live action AI composite</small>
+        </button>
+      </div>
+    </section>
+
+    <section id="contact" class="panel content-panel align-right contact-panel" data-section="06">
+      <article class="glass-card reveal">
+        <p class="eyebrow">Contact / 联系</p>
+        <h2>Let the next frame move.</h2>
+        <p>
+          如果你正在寻找能同时理解传统制作流程与 AIGC 视觉生成的设计师，可以从邮件开始联系我。
+        </p>
+        <div class="contact-links">
+          <a class="mail-link" href="mailto:gyxgcgyx@outlook.com">gyxgcgyx@outlook.com</a>
+          <a class="phone-link" href="tel:18519665717">18519665717</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <button id="autoplay-toggle" class="autoplay-toggle" type="button" aria-pressed="false">
+    <span class="play-mark" aria-hidden="true"></span>
+    <span class="toggle-label">Auto Play</span>
+  </button>
+
+  <div class="scroll-meter" aria-hidden="true">
+    <span id="scroll-progress"></span>
+  </div>
+
+  <div id="project-modal" class="project-modal" aria-hidden="true">
+    <div class="modal-shell" role="dialog" aria-modal="true" aria-label="Project video player">
+      <button id="modal-close" class="modal-close" type="button" aria-label="Close project video">Close</button>
+      <video id="modal-video" controls playsinline></video>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>

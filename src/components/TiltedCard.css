@@ -1,0 +1,23 @@
+.tilted-card-figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+.tilted-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .tilted-card-inner {
+    will-change: auto;
+  }
+}
