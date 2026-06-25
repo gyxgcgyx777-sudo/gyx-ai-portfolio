@@ -293,7 +293,7 @@ function About() {
           <BorderGlow className="about-glow about-copy-glow reveal" animated>
             <div className="about-copy">
               <div className="about-story">
-                <h3>高煜翔｜AE 动态设计师 · AIGC 视频创作者</h3>
+                <h3>AE 动态设计师 · AIGC 视频创作者</h3>
                 <p>
                   长期参与二维动画、AE 合成、剪辑包装、课程动画、商业定制短片等项目，熟悉从脚本理解、画面设计、节奏剪辑、动效包装到最终输出的完整流程。
                 </p>
@@ -332,10 +332,6 @@ function About() {
                     <span className="detail-value">后期制作 / 动画合成 / 剪辑包装 / 商业视频交付</span>
                   </div>
                 </div>
-
-                <p className="about-summary">
-                  Motion Designer / AIGC Visual Designer / Commercial Video Creator
-                </p>
               </div>
             </div>
           </BorderGlow>

@@ -668,6 +668,7 @@
     overflow: hidden;
     border: 0;
     background: transparent;
+    height: 100%;
     aspect-ratio: 2 / 3;
   }
 
@@ -676,7 +677,8 @@
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center top;
   }
 
   .about-copy {
@@ -692,10 +694,11 @@
   }
 
   .about-story h3 {
-    font-size: clamp(28px, 2.5vw, 46px);
+    font-size: clamp(28px, 2.25vw, 42px);
     font-weight: 500;
     line-height: 1.35;
     text-wrap: balance;
+    white-space: nowrap;
   }
 
   .about-story p {
@@ -740,20 +743,6 @@
 
   .detail-value:hover {
     color: var(--accent);
-  }
-
-  .about-summary {
-    display: flex;
-    min-height: 170px;
-    align-items: center;
-    margin-top: 70px;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: 34px 0;
-    color: var(--muted);
-    font-size: clamp(20px, 1.65vw, 29px);
-    line-height: 1.65;
-    text-wrap: pretty;
   }
 
   .services {
@@ -1546,6 +1535,10 @@
       margin-top: 22px;
     }
 
+    .about-story h3 {
+      white-space: normal;
+    }
+
     .about-details {
       grid-template-columns: 1fr;
     }
@@ -1553,11 +1546,6 @@
     .detail-row:nth-child(even) {
       border-left: 0;
       padding-left: 0;
-    }
-
-    .about-summary {
-      min-height: 140px;
-      margin-top: 48px;
     }
 
     .projects-head {

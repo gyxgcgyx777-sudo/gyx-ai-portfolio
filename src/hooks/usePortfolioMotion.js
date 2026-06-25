@@ -135,8 +135,7 @@ export default function usePortfolioMotion(scopeRef) {
           stagger: 0.1,
           duration: 0.95,
           ease: smoothEase,
-        }, 0.72)
-        .from(".about-summary", { y: 42, autoAlpha: 0, duration: 1.1, ease: smoothEase }, 0.98);
+        }, 0.72);
 
       gsap.from(".service-card", {
         y: 120,
