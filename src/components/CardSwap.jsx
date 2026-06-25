@@ -5,6 +5,7 @@ import {
   isValidElement,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -39,7 +40,7 @@ function placeCard(element, slot) {
   });
 }
 
-export default function CardSwap({
+const CardSwap = forwardRef(function CardSwap({
   width = 820,
   height = 520,
   cardDistance = 104,
@@ -47,14 +48,17 @@ export default function CardSwap({
   delay = 0,
   pauseOnHover = true,
   onCardClick,
+  onActiveChange,
   children,
-}) {
+}, ref) {
   const childArray = useMemo(() => Children.toArray(children), [children]);
   const refs = useMemo(() => childArray.map(() => ({ current: null })), [childArray.length]);
   const orderRef = useRef(Array.from({ length: childArray.length }, (_, index) => index));
   const timelineRef = useRef(null);
   const intervalRef = useRef(null);
   const containerRef = useRef(null);
+  const pointerStartRef = useRef(null);
+  const ignoreClickRef = useRef(false);
   const [frontIndex, setFrontIndex] = useState(0);
 
   const resolveDistance = useCallback(() => {
@@ -94,6 +98,7 @@ export default function CardSwap({
       onComplete: () => {
         orderRef.current = nextOrder;
         setFrontIndex(cardIndex);
+        onActiveChange?.(cardIndex);
         if (!automatic) onCardClick?.(cardIndex, false);
       },
     });
@@ -131,11 +136,30 @@ export default function CardSwap({
       },
       0.18,
     );
-  }, [onCardClick, refs, resolveDistance, verticalDistance]);
+  }, [onActiveChange, onCardClick, refs, resolveDistance, verticalDistance]);
+
+  const showNext = useCallback(() => {
+    const nextIndex = orderRef.current[1];
+    if (nextIndex !== undefined) promoteCard(nextIndex);
+  }, [promoteCard]);
+
+  const showPrevious = useCallback(() => {
+    const previousIndex = orderRef.current[orderRef.current.length - 1];
+    if (previousIndex !== undefined) promoteCard(previousIndex);
+  }, [promoteCard]);
+
+  useImperativeHandle(ref, () => ({
+    next: showNext,
+    previous: showPrevious,
+    goTo: (index) => {
+      if (Number.isInteger(index) && index >= 0 && index < refs.length) promoteCard(index);
+    },
+  }), [promoteCard, refs.length, showNext, showPrevious]);
 
   useLayoutEffect(() => {
     orderRef.current = Array.from({ length: refs.length }, (_, index) => index);
     setFrontIndex(0);
+    onActiveChange?.(0);
     positionCards();
 
     const resizeObserver = new ResizeObserver(positionCards);
@@ -145,7 +169,7 @@ export default function CardSwap({
       resizeObserver.disconnect();
       timelineRef.current?.kill();
     };
-  }, [positionCards, refs.length]);
+  }, [onActiveChange, positionCards, refs.length]);
 
   useEffect(() => {
     if (!delay || refs.length < 2) return undefined;
@@ -175,8 +199,47 @@ export default function CardSwap({
     };
   }, [delay, pauseOnHover, promoteCard, refs.length]);
 
+  const handlePointerDown = (event) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    pointerStartRef.current = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+    };
+    ignoreClickRef.current = false;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  };
+
+  const handlePointerUp = (event) => {
+    const start = pointerStartRef.current;
+    if (!start || start.id !== event.pointerId) return;
+
+    const deltaX = event.clientX - start.x;
+    const deltaY = event.clientY - start.y;
+    pointerStartRef.current = null;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+
+    if (Math.abs(deltaX) > 46 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35) {
+      ignoreClickRef.current = true;
+      if (deltaX < 0) showNext();
+      else showPrevious();
+      window.setTimeout(() => {
+        ignoreClickRef.current = false;
+      }, 180);
+    }
+  };
+
   return (
-    <div ref={containerRef} className="card-swap-container" style={{ height }}>
+    <div
+      ref={containerRef}
+      className="card-swap-container"
+      style={{ height }}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={() => {
+        pointerStartRef.current = null;
+      }}
+    >
       {childArray.map((child, index) => (
         isValidElement(child)
           ? cloneElement(child, {
@@ -190,6 +253,11 @@ export default function CardSwap({
             tabIndex: 0,
             "aria-current": frontIndex === index ? "true" : undefined,
             onClick: (event) => {
+              if (ignoreClickRef.current) {
+                event.preventDefault();
+                event.stopPropagation();
+                return;
+              }
               child.props.onClick?.(event);
               promoteCard(index);
             },
@@ -205,4 +273,6 @@ export default function CardSwap({
       ))}
     </div>
   );
-}
+});
+
+export default CardSwap;

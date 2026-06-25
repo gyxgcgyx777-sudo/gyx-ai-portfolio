@@ -32,6 +32,8 @@
 
   button {
     font: inherit;
+    appearance: none;
+    -webkit-appearance: none;
   }
 }
 
@@ -432,9 +434,58 @@
   }
 
   .hero-project-link i {
+    flex: 0 0 auto;
     font-style: normal;
     font-size: 21px;
     line-height: 1;
+  }
+
+  .icon-arrow {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+  }
+
+  .icon-arrow::before,
+  .icon-arrow::after {
+    position: absolute;
+    content: "";
+  }
+
+  .icon-arrow::before {
+    top: 8px;
+    left: 1px;
+    width: 17px;
+    height: 2px;
+    background: currentColor;
+    transform-origin: center;
+  }
+
+  .icon-arrow--down::before {
+    transform: rotate(45deg);
+  }
+
+  .icon-arrow--down::after {
+    right: 0;
+    bottom: 1px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+  }
+
+  .icon-arrow--up::before {
+    transform: rotate(-45deg);
+  }
+
+  .icon-arrow--up::after {
+    top: 1px;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
   }
 
   .hero-project-link:hover {
@@ -458,8 +509,38 @@
 
   .hero-scroll span {
     margin-left: 14px;
+  }
+
+  .down-arrow {
+    position: relative;
+    display: inline-block;
+    width: 12px;
+    height: 24px;
     color: var(--accent);
-    font-size: 18px;
+  }
+
+  .down-arrow::before,
+  .down-arrow::after {
+    position: absolute;
+    content: "";
+  }
+
+  .down-arrow::before {
+    top: 0;
+    left: 5px;
+    width: 1px;
+    height: 22px;
+    background: currentColor;
+  }
+
+  .down-arrow::after {
+    right: 1px;
+    bottom: 1px;
+    width: 9px;
+    height: 9px;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: rotate(45deg);
   }
 
   .about {
@@ -805,6 +886,7 @@
   }
 
   .project-open i {
+    flex: 0 0 auto;
     font-style: normal;
     font-size: 20px;
     transition: transform 260ms var(--ease);
@@ -822,6 +904,96 @@
 
   .project-swap-card:hover .project-open i {
     transform: translate(4px, -4px);
+  }
+
+  .project-carousel-controls {
+    position: absolute;
+    right: 0;
+    bottom: -74px;
+    display: inline-grid;
+    align-items: center;
+    grid-template-columns: 44px auto 44px;
+    gap: 16px;
+    color: var(--muted);
+  }
+
+  .project-carousel-controls button,
+  .modal-project-controls button {
+    display: grid;
+    width: 44px;
+    border: 1px solid var(--line-strong);
+    background: rgba(8, 12, 16, 0.72);
+    color: var(--text);
+    cursor: pointer;
+    place-items: center;
+    aspect-ratio: 1;
+    transition:
+      border-color 220ms ease,
+      background 220ms ease,
+      color 220ms ease,
+      transform 260ms var(--ease);
+  }
+
+  .project-carousel-controls button:hover,
+  .modal-project-controls button:hover {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--accent-ink);
+    transform: translateY(-2px);
+  }
+
+  .project-carousel-count {
+    display: inline-flex;
+    min-width: 76px;
+    justify-content: center;
+    gap: 8px;
+    color: var(--quiet);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
+  .project-carousel-count span:first-child {
+    color: var(--accent);
+  }
+
+  .carousel-arrow {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 14px;
+  }
+
+  .carousel-arrow::before,
+  .carousel-arrow::after {
+    position: absolute;
+    content: "";
+  }
+
+  .carousel-arrow::before {
+    top: 6px;
+    left: 1px;
+    width: 16px;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .carousel-arrow::after {
+    top: 2px;
+    width: 9px;
+    height: 9px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+  }
+
+  .carousel-arrow--next::after {
+    right: 1px;
+    transform: rotate(45deg);
+  }
+
+  .carousel-arrow--prev::after {
+    left: 1px;
+    transform: rotate(-135deg);
   }
 
   .advantages {
@@ -1068,6 +1240,18 @@
     aspect-ratio: 16 / 9;
   }
 
+  .modal-project-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 18px;
+    gap: 18px;
+    color: var(--quiet);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
   .scroll-progress {
     position: fixed;
     z-index: 80;
@@ -1213,6 +1397,7 @@
     .project-swap-stage {
       min-height: 470px;
       margin-top: 64px;
+      margin-bottom: 88px;
     }
 
     .project-card-bar {
@@ -1241,6 +1426,34 @@
     .project-open {
       min-width: 92px;
       font-size: 10px;
+    }
+
+    .project-carousel-controls {
+      right: 50%;
+      bottom: -72px;
+      transform: translateX(50%);
+      grid-template-columns: 48px auto 48px;
+      gap: 14px;
+    }
+
+    .project-carousel-controls button,
+    .modal-project-controls button {
+      width: 48px;
+    }
+
+    .modal-dialog {
+      display: flex;
+      width: 100%;
+      max-height: calc(100svh - 48px);
+      flex-direction: column;
+    }
+
+    .modal-video {
+      max-height: calc(100svh - 180px);
+    }
+
+    .modal-project-controls {
+      margin-top: 14px;
     }
 
     .advantage-grid {

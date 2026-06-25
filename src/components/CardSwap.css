@@ -3,6 +3,8 @@
   width: 100%;
   perspective: 1600px;
   transform-style: preserve-3d;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .swap-card {

@@ -136,17 +136,55 @@ function Header({ activeSection, scrolled }) {
 }
 
 function Hero() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const attemptPlay = () => {
+      if (document.visibilityState === "hidden") return;
+      video.play().catch(() => {});
+    };
+
+    const handleVisibility = () => attemptPlay();
+    const playTimer = window.setTimeout(attemptPlay, 350);
+
+    video.addEventListener("loadeddata", attemptPlay);
+    video.addEventListener("canplay", attemptPlay);
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("touchstart", attemptPlay, { once: true, passive: true });
+    window.addEventListener("pointerdown", attemptPlay, { once: true, passive: true });
+    attemptPlay();
+
+    return () => {
+      window.clearTimeout(playTimer);
+      video.removeEventListener("loadeddata", attemptPlay);
+      video.removeEventListener("canplay", attemptPlay);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
+
   return (
     <section className="hero" id="hero" data-section="hero">
       <video
+        ref={videoRef}
         className="hero-media"
         autoPlay
         loop
         muted
+        defaultMuted
         playsInline
+        preload="auto"
         poster={assetPath("assets/fallback/hero-poster.jpg")}
-        src={assetPath("assets/hero-scroll.mp4")}
-      />
+      >
+        <source src={assetPath("assets/hero-scroll-mobile.mp4")} media="(max-width: 760px)" type="video/mp4" />
+        <source src={assetPath("assets/hero-scroll.mp4")} type="video/mp4" />
+      </video>
       <div className="hero-shade" aria-hidden="true" />
       <div className="hero-noise" aria-hidden="true" />
 
@@ -170,10 +208,10 @@ function Hero() {
           scrollToSection("projects");
         }}>
           <span>查看精选项目</span>
-          <i aria-hidden="true">↘</i>
+          <i className="icon-arrow icon-arrow--down" aria-hidden="true" />
         </a>
 
-        <p className="hero-scroll" aria-hidden="true">Scroll to explore <span>↓</span></p>
+        <p className="hero-scroll" aria-hidden="true">Scroll to explore <span className="down-arrow" /></p>
       </div>
     </section>
   );
@@ -296,7 +334,7 @@ const ProjectSwapCard = forwardRef(({ project, index, ...cardProps }, cardRef) =
           <h3>{project.title}</h3>
           <p>{project.description}</p>
         </div>
-        <span className="project-open">Play project <i aria-hidden="true">↗</i></span>
+        <span className="project-open">Play project <i className="icon-arrow icon-arrow--up" aria-hidden="true" /></span>
       </div>
     </Card>
   );
@@ -305,6 +343,9 @@ const ProjectSwapCard = forwardRef(({ project, index, ...cardProps }, cardRef) =
 ProjectSwapCard.displayName = "ProjectSwapCard";
 
 function Projects({ onOpen }) {
+  const swapRef = useRef(null);
+  const [activeProject, setActiveProject] = useState(0);
+
   return (
     <section className="projects" id="projects" data-section="projects">
       <div className="shell">
@@ -318,19 +359,35 @@ function Projects({ onOpen }) {
 
         <div className="project-swap-stage reveal">
           <CardSwap
+            ref={swapRef}
             width="clamp(290px, 62vw, 940px)"
             height="clamp(390px, 38vw, 590px)"
             cardDistance={112}
             verticalDistance={8}
             delay={0}
+            onActiveChange={setActiveProject}
             onCardClick={(index, isFront) => {
-              if (isFront) onOpen(projects[index]);
+              if (isFront) onOpen(index);
             }}
           >
             {projects.map((project, index) => (
               <ProjectSwapCard key={project.title} project={project} index={index} />
             ))}
           </CardSwap>
+
+          <div className="project-carousel-controls" aria-label="项目切换">
+            <button type="button" aria-label="上一个项目" onClick={() => swapRef.current?.previous()}>
+              <span className="carousel-arrow carousel-arrow--prev" aria-hidden="true" />
+            </button>
+            <div className="project-carousel-count" aria-live="polite">
+              <span>{String(activeProject + 1).padStart(2, "0")}</span>
+              <span>/</span>
+              <span>{String(projects.length).padStart(2, "0")}</span>
+            </div>
+            <button type="button" aria-label="下一个项目" onClick={() => swapRef.current?.next()}>
+              <span className="carousel-arrow carousel-arrow--next" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -389,24 +446,48 @@ function Contact() {
   );
 }
 
-function VideoModal({ project, onClose }) {
+function VideoModal({ projectIndex, onClose, onNavigate }) {
+  const project = Number.isInteger(projectIndex) ? projects[projectIndex] : null;
+  const touchStartRef = useRef(null);
+
   useEffect(() => {
     if (!project) return undefined;
     document.body.classList.add("modal-open");
     const handleKeyDown = (event) => {
       if (event.key === "Escape") onClose();
+      if (event.key === "ArrowLeft") onNavigate(-1);
+      if (event.key === "ArrowRight") onNavigate(1);
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.classList.remove("modal-open");
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [project, onClose]);
+  }, [onClose, onNavigate, project]);
+
+  const handleTouchEnd = (event) => {
+    const start = touchStartRef.current;
+    if (!start) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    touchStartRef.current = null;
+
+    if (Math.abs(deltaX) > 52 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35) {
+      onNavigate(deltaX < 0 ? 1 : -1);
+    }
+  };
 
   return (
     <div
       className={`video-modal${project ? " is-open" : ""}`}
       aria-hidden={!project}
+      onTouchStart={(event) => {
+        const touch = event.touches[0];
+        touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+      }}
+      onTouchEnd={handleTouchEnd}
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -417,6 +498,17 @@ function VideoModal({ project, onClose }) {
           <button className="modal-close" type="button" aria-label="关闭视频" onClick={onClose}>×</button>
         </div>
         {project && <video className="modal-video" src={project.video} controls autoPlay playsInline />}
+        {project && (
+          <div className="modal-project-controls" aria-label="切换项目视频">
+            <button type="button" aria-label="上一个项目视频" onClick={() => onNavigate(-1)}>
+              <span className="carousel-arrow carousel-arrow--prev" aria-hidden="true" />
+            </button>
+            <span>{String(projectIndex + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}</span>
+            <button type="button" aria-label="下一个项目视频" onClick={() => onNavigate(1)}>
+              <span className="carousel-arrow carousel-arrow--next" aria-hidden="true" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -427,7 +519,7 @@ function App() {
   const [activeSection, setActiveSection] = useState("hero");
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState(null);
 
   usePortfolioMotion(appRef);
 
@@ -470,11 +562,20 @@ function App() {
       <main>
         <Hero />
         <About />
-        <Projects onOpen={setSelectedProject} />
+        <Projects onOpen={setSelectedProjectIndex} />
         <Strengths />
       </main>
       <Contact />
-      <VideoModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      <VideoModal
+        projectIndex={selectedProjectIndex}
+        onClose={() => setSelectedProjectIndex(null)}
+        onNavigate={(direction) => {
+          setSelectedProjectIndex((current) => {
+            if (!Number.isInteger(current)) return current;
+            return (current + direction + projects.length) % projects.length;
+          });
+        }}
+      />
     </div>
   );
 }
