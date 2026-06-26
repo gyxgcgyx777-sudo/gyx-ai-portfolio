@@ -252,11 +252,57 @@ const CardSwap = forwardRef(function CardSwap({
     }
   };
 
+  const resolveCardFromPoint = (x, y) => {
+    const order = orderRef.current;
+    const frontCard = refs[order[0]]?.current;
+    const frontRect = frontCard?.getBoundingClientRect();
+    const hits = order
+      .map((cardIndex) => {
+        const card = refs[cardIndex]?.current;
+        if (!card) return null;
+        const rect = card.getBoundingClientRect();
+        const contains = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+        return contains ? { cardIndex, rect } : null;
+      })
+      .filter(Boolean);
+
+    if (!hits.length) return null;
+    if (
+      frontRect
+      && x >= frontRect.left
+      && x <= frontRect.right - Math.max(resolveDistance() * 0.5, 36)
+      && y >= frontRect.top
+      && y <= frontRect.bottom
+    ) {
+      return order[0];
+    }
+
+    return hits.reduce((selected, hit) => (
+      hit.rect.left > selected.rect.left ? hit : selected
+    ), hits[0]).cardIndex;
+  };
+
+  const handleClickCapture = (event) => {
+    if (ignoreClickRef.current) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    const cardIndex = resolveCardFromPoint(event.clientX, event.clientY);
+    if (cardIndex === null) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    promoteCard(cardIndex);
+  };
+
   return (
     <div
       ref={containerRef}
       className="card-swap-container"
       style={{ height }}
+      onClickCapture={handleClickCapture}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerCancel={() => {
@@ -274,6 +320,7 @@ const CardSwap = forwardRef(function CardSwap({
             style: { width, height, ...(child.props.style ?? {}) },
             role: "button",
             tabIndex: 0,
+            "data-swap-index": index,
             "aria-current": frontIndex === index ? "true" : undefined,
             onClick: (event) => {
               if (ignoreClickRef.current) {

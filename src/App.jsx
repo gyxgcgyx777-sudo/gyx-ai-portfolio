@@ -362,9 +362,8 @@ function Services() {
         </div>
 
         <div className="service-grid reveal">
-          {services.map((item, index) => (
+          {services.map((item) => (
             <article className="service-card" key={item.title}>
-              <span className="service-index">{String(index + 1).padStart(2, "0")}</span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               <span className="service-tags">{item.tags}</span>

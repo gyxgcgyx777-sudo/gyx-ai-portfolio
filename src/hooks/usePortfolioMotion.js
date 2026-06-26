@@ -138,11 +138,11 @@ export default function usePortfolioMotion(scopeRef) {
         }, 0.72);
 
       gsap.from(".service-card", {
-        y: 120,
         autoAlpha: 0,
+        clipPath: "inset(0 0 100% 0)",
         stagger: 0.14,
-        duration: 1.35,
-        ease: "power4.out",
+        duration: 1.2,
+        ease: "power4.inOut",
         scrollTrigger: {
           trigger: ".service-grid",
           start: "top 82%",
