@@ -19,49 +19,63 @@ const projects = [
     title: "DEMO REEL",
     type: "AIGC / Motion / Direction",
     description: "汇总 AIGC 视觉生成、AE 合成、剪辑包装与商业视觉片段，展示从创意测试到成片输出的综合制作能力。",
-    cover: assetPath("assets/covers/project-demo-reel.jpg"),
+    cover: assetPath("assets/covers/project-demo-reel.avif"),
+    coverWidth: 720,
+    coverHeight: 405,
     video: assetPath("assets/videos/demo-reel.mp4"),
   },
   {
     title: "《下一位》",
     type: "Original Animation / AIGC",
     description: "使用 AIGC 完成角色、场景搭建与氛围镜头探索，并结合剪辑节奏与声音设计，完成原创动画短片概念表达。",
-    cover: assetPath("assets/covers/project-next-princess.jpg"),
+    cover: assetPath("assets/covers/project-next-princess.avif"),
+    coverWidth: 720,
+    coverHeight: 405,
     video: assetPath("assets/videos/next-princess.mp4"),
   },
   {
     title: "自在营养 TVC",
     type: "Commercial / Product Visual",
     description: "面向消费品牌的产品广告案例，围绕产品卖点、视觉质感与商业传播需求完成镜头设计、剪辑包装与成片输出。",
-    cover: assetPath("assets/covers/project-nutrition-tvc.jpg"),
+    cover: assetPath("assets/covers/project-nutrition-tvc.avif"),
+    coverWidth: 720,
+    coverHeight: 405,
     video: assetPath("assets/videos/nutrition-tvc.mp4"),
   },
   {
     title: "漫剧特效案例",
     type: "Drama / Visual Effects",
     description: "根据剧情节奏完成画面特效、镜头强化、动态元素与合成处理，提升漫剧内容的视觉冲击和观看节奏。",
-    cover: assetPath("assets/covers/project-drama-fx.jpg"),
+    cover: assetPath("assets/covers/project-drama-fx.avif"),
+    coverWidth: 720,
+    coverHeight: 405,
     video: assetPath("assets/videos/drama-fx.mp4"),
   },
   {
     title: "游戏 CG 演示",
     type: "Character / Concept Look",
     description: "基于角色设定与世界观方向进行概念视觉开发，完成角色氛围、镜头节奏与 CG 风格展示。",
-    cover: assetPath("assets/covers/project-game-cg.jpg"),
+    cover: assetPath("assets/covers/project-game-cg.avif"),
+    coverWidth: 720,
+    coverHeight: 405,
     video: assetPath("assets/videos/game-cg.mp4"),
   },
   {
     title: "原创 IP 潮流盲盒",
     type: "IP Design / Product Concept",
     description: "从 IP 角色设定、产品概念到展示视频，探索 AIGC 在潮玩、盲盒和品牌衍生品视觉开发中的应用。",
-    cover: assetPath("assets/covers/project-ip-blindbox.jpg"),
+    cover: assetPath("assets/covers/project-ip-blindbox.avif"),
+    coverWidth: 720,
+    coverHeight: 1280,
     video: assetPath("assets/videos/ip-blindbox.mp4"),
   },
   {
     title: "实景 AI 合成",
     type: "Live Action / AI Composite",
     description: "将实拍素材与 AI 生成元素结合，通过 AE 合成、调色、跟踪与镜头包装，完成更接近商业项目的混合影像效果。",
-    cover: assetPath("assets/covers/project-live-composite.jpg"),
+    cover: assetPath("assets/covers/project-live-composite.avif"),
+    coverWidth: 480,
+    coverHeight: 853,
     video: assetPath("assets/videos/live-composite.mp4"),
   },
 ];
@@ -214,7 +228,7 @@ function Hero() {
         defaultMuted
         playsInline
         preload="auto"
-        poster={assetPath("assets/fallback/hero-poster.jpg")}
+        poster={assetPath("assets/fallback/hero-poster.avif")}
       >
         <source src={assetPath("assets/hero-scroll-mobile.mp4")} media="(max-width: 760px)" type="video/mp4" />
         <source src={assetPath("assets/hero-scroll.mp4")} type="video/mp4" />
@@ -262,7 +276,12 @@ function Hero() {
 
 function About() {
   return (
-    <section className="about" id="about" data-section="about">
+    <section
+      className="about"
+      id="about"
+      data-section="about"
+      style={{ "--about-bg": `url(${assetPath("assets/fallback/hero-poster.avif")})` }}
+    >
       <div className="shell">
         <div className="about-heading reveal">
           <div>
@@ -291,7 +310,11 @@ function About() {
               <div className="identity-panel">
                 <img
                   className="identity-portrait"
-                  src={assetPath("assets/profile/gyx-character-card.png")}
+                  src={assetPath("assets/profile/gyx-character-card.avif")}
+                  width="1024"
+                  height="1536"
+                  loading="lazy"
+                  decoding="async"
                   alt="高煜翔 GYX 角色人物卡"
                 />
               </div>
@@ -376,35 +399,26 @@ function Services() {
 }
 
 const ProjectSwapCard = forwardRef(({ project, index, ...cardProps }, cardRef) => {
-  const previewRef = useRef(null);
-
-  const startPreview = () => {
-    if (!previewRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    previewRef.current.play().catch(() => {});
-  };
-
-  const stopPreview = () => {
-    if (!previewRef.current) return;
-    previewRef.current.pause();
-    previewRef.current.currentTime = 0;
-  };
-
   return (
     <Card
       ref={cardRef}
       customClass="project-swap-card"
       aria-label={`${project.title} 项目`}
       {...cardProps}
-      onMouseEnter={startPreview}
-      onMouseLeave={stopPreview}
     >
       <div className="project-card-bar">
         <span>{String(index + 1).padStart(2, "0")}</span>
         <span>{project.type}</span>
       </div>
       <div className="project-media">
-        <img src={project.cover} alt={`${project.title} 项目封面`} />
-        <video ref={previewRef} src={project.video} muted loop playsInline preload="none" aria-hidden="true" />
+        <img
+          src={project.cover}
+          alt={`${project.title} 项目封面`}
+          width={project.coverWidth}
+          height={project.coverHeight}
+          loading="lazy"
+          decoding="async"
+        />
       </div>
       <div className="project-info">
         <div>
