@@ -256,30 +256,21 @@ const CardSwap = forwardRef(function CardSwap({
     const order = orderRef.current;
     const frontCard = refs[order[0]]?.current;
     const frontRect = frontCard?.getBoundingClientRect();
-    const hits = order
-      .map((cardIndex) => {
-        const card = refs[cardIndex]?.current;
-        if (!card) return null;
-        const rect = card.getBoundingClientRect();
-        const contains = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
-        return contains ? { cardIndex, rect } : null;
-      })
-      .filter(Boolean);
 
-    if (!hits.length) return null;
-    if (
-      frontRect
-      && x >= frontRect.left
-      && x <= frontRect.right - Math.max(resolveDistance() * 0.5, 36)
-      && y >= frontRect.top
-      && y <= frontRect.bottom
-    ) {
+    if (!frontRect || y < frontRect.top || y > frontRect.bottom) return null;
+
+    if (x >= frontRect.left && x <= frontRect.right) {
       return order[0];
     }
 
-    return hits.reduce((selected, hit) => (
-      hit.rect.left > selected.rect.left ? hit : selected
-    ), hits[0]).cardIndex;
+    const distance = Math.max(resolveDistance(), 1);
+    const exposedSlot = Math.floor((x - frontRect.right) / distance) + 1;
+
+    if (exposedSlot >= 1 && exposedSlot < order.length) {
+      return order[exposedSlot];
+    }
+
+    return null;
   };
 
   const handleClickCapture = (event) => {
