@@ -981,20 +981,22 @@
   .project-accordion-card:not(.is-active)::before {
     position: absolute;
     z-index: 2;
+    top: clamp(74px, 7vw, 112px);
     right: 50%;
-    bottom: 28px;
-    width: max-content;
-    max-width: 320px;
+    bottom: 30px;
+    display: block;
+    overflow: hidden;
+    max-height: calc(100% - 128px);
     color: rgba(246, 248, 245, 0.82);
     content: attr(data-title);
-    font-size: clamp(18px, 1.45vw, 26px);
+    font-size: clamp(17px, 1.25vw, 24px);
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     line-height: 1.2;
     text-shadow: 0 10px 28px rgba(0, 0, 0, 0.52);
-    transform: translateX(50%) rotate(-90deg);
-    transform-origin: center;
-    white-space: nowrap;
+    transform: translateX(50%);
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
     pointer-events: none;
     transition:
       opacity 420ms ease,
