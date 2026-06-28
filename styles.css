@@ -854,38 +854,52 @@
     gap: 60px;
   }
 
-  .project-swap-stage {
+  .project-accordion-stage {
     position: relative;
-    min-height: clamp(450px, 43vw, 650px);
     margin-top: clamp(72px, 8vw, 132px);
+    margin-bottom: 86px;
     isolation: isolate;
   }
 
-  .project-swap-card {
+  .project-accordion {
+    display: flex;
+    height: clamp(430px, 38vw, 620px);
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .project-accordion-card {
+    position: relative;
     display: flex;
     overflow: hidden;
+    min-width: 72px;
     border: 1px solid var(--line-strong);
     border-radius: var(--radius);
     padding: 0;
     flex-direction: column;
+    flex: 0.42 1 0;
     background: #080c10;
     box-shadow: 0 34px 90px rgba(0, 0, 0, 0.52);
     color: var(--text);
     cursor: pointer;
     text-align: left;
+    appearance: none;
     filter: brightness(0.58) saturate(0.72);
     transition:
+      flex 950ms cubic-bezier(0.19, 1, 0.22, 1),
       border-color 500ms ease,
       filter 500ms ease,
-      box-shadow 500ms ease;
+      box-shadow 500ms ease,
+      transform 500ms var(--ease);
   }
 
-  .project-swap-card:hover {
+  .project-accordion-card:hover {
     border-color: rgba(255, 90, 0, 0.72);
     filter: brightness(0.82) saturate(0.9);
   }
 
-  .project-swap-card.is-front {
+  .project-accordion-card.is-active {
+    flex: 4.8 1 0;
     border-color: rgba(255, 90, 0, 0.82);
     box-shadow:
       0 42px 120px rgba(0, 0, 0, 0.62),
@@ -893,41 +907,101 @@
     filter: none;
   }
 
-  .project-card-bar {
-    display: flex;
-    min-height: 44px;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-    padding: 0 18px;
-    color: var(--quiet);
-    font-size: 9px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .project-card-bar span:first-child {
-    color: var(--accent);
-  }
-
-  .project-media {
-    position: relative;
-    min-height: 0;
+  .project-accordion-media {
+    position: absolute;
+    inset: 0;
     overflow: hidden;
-    flex: 1;
     background: var(--panel);
   }
 
-  .project-media img {
+  .project-accordion-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition:
-      transform 900ms var(--ease),
-      filter 500ms ease;
+      transform 1200ms cubic-bezier(0.19, 1, 0.22, 1),
+      filter 640ms ease;
   }
 
-  .project-media::after {
+  .project-accordion-card:not(.is-active) .project-accordion-media img {
+    filter: grayscale(1) contrast(1.06);
+  }
+
+  .project-accordion-card:hover .project-accordion-media img,
+  .project-accordion-card.is-active .project-accordion-media img {
+    transform: scale(1.035);
+  }
+
+  .project-accordion-shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(3, 4, 5, 0.05), rgba(3, 4, 5, 0.28) 48%, rgba(3, 4, 5, 0.78)),
+      linear-gradient(90deg, rgba(3, 4, 5, 0.08), transparent 45%);
+    pointer-events: none;
+  }
+
+  .project-accordion-card:not(.is-active) .project-accordion-shade {
+    background:
+      linear-gradient(180deg, rgba(3, 4, 5, 0.18), rgba(3, 4, 5, 0.52)),
+      rgba(3, 4, 5, 0.32);
+  }
+
+  .project-accordion-label {
+    position: absolute;
+    z-index: 2;
+    top: 18px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(246, 248, 245, 0.64);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition:
+      opacity 500ms ease,
+      transform 950ms cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .project-accordion-label span:first-child {
+    color: var(--accent);
+  }
+
+  .project-accordion-card:not(.is-active) .project-accordion-label {
+    top: 16px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .project-accordion-card:not(.is-active) .project-accordion-label span:last-child {
+    display: none;
+  }
+
+  .project-accordion-card:not(.is-active)::before {
+    position: absolute;
+    z-index: 2;
+    right: 50%;
+    bottom: 28px;
+    width: max-content;
+    max-width: 320px;
+    color: rgba(246, 248, 245, 0.82);
+    content: attr(data-title);
+    font-size: clamp(18px, 1.45vw, 26px);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-shadow: 0 10px 28px rgba(0, 0, 0, 0.52);
+    transform: translateX(50%) rotate(-90deg);
+    transform-origin: center;
+    white-space: nowrap;
+    pointer-events: none;
+    transition:
+      opacity 420ms ease,
+      transform 950ms cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .project-accordion-card::after {
     position: absolute;
     inset: 0;
     border: 1px solid var(--line);
@@ -935,24 +1009,38 @@
     pointer-events: none;
   }
 
-  .project-info {
+  .project-accordion-info {
+    position: relative;
+    z-index: 2;
     display: flex;
-    min-height: clamp(136px, 8.4vw, 156px);
+    min-height: clamp(136px, 8.4vw, 164px);
+    margin-top: auto;
     align-items: flex-end;
     justify-content: space-between;
-    border-top: 1px solid var(--line);
-    padding: 20px 22px;
+    padding: 26px;
     gap: 28px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 560ms ease 120ms,
+      transform 800ms cubic-bezier(0.19, 1, 0.22, 1) 120ms;
+    pointer-events: none;
   }
 
-  .project-info h3 {
+  .project-accordion-card.is-active .project-accordion-info {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .project-accordion-info h3 {
     font-size: clamp(22px, 2vw, 34px);
     font-weight: 500;
     line-height: 1.15;
     text-wrap: balance;
   }
 
-  .project-info p {
+  .project-accordion-info p {
     max-width: 640px;
     margin-top: 8px;
     color: var(--muted);
@@ -976,12 +1064,7 @@
     transition: transform 260ms var(--ease);
   }
 
-  .project-swap-card:hover .project-media img {
-    filter: saturate(1.08);
-    transform: scale(1.025);
-  }
-
-  .project-swap-card:hover .project-open i {
+  .project-accordion-card:hover .project-open i {
     transform: translate(4px, -4px);
   }
 
@@ -1563,32 +1646,65 @@
       margin-top: 52px;
     }
 
-    .project-swap-stage {
+    .project-accordion-stage {
       min-height: 470px;
       margin-top: 64px;
       margin-bottom: 88px;
     }
 
-    .project-card-bar {
-      min-height: 40px;
-      padding-inline: 14px;
+    .project-accordion {
+      height: 470px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .project-card-bar span:last-child {
-      max-width: 180px;
+    .project-accordion-card,
+    .project-accordion-card.is-active {
+      min-width: min(82vw, 360px);
+      flex: 0 0 min(82vw, 360px);
+      scroll-snap-align: center;
+      filter: none;
+    }
+
+    .project-accordion-card:not(.is-active) {
+      filter: brightness(0.7) saturate(0.76);
+    }
+
+    .project-accordion-card:not(.is-active) .project-accordion-label {
+      top: 14px;
+      right: 14px;
+      bottom: auto;
+      transform: none;
+    }
+
+    .project-accordion-card:not(.is-active)::before {
+      display: none;
+    }
+
+    .project-accordion-card:not(.is-active) .project-accordion-label span:last-child {
+      display: inline;
+      max-width: 170px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .project-info {
+    .project-accordion-card:not(.is-active) .project-accordion-media img {
+      filter: grayscale(0.55) contrast(1.04);
+    }
+
+    .project-accordion-info {
       min-height: 112px;
       align-items: center;
       padding: 16px;
       gap: 16px;
+      opacity: 1;
+      transform: none;
     }
 
-    .project-info p {
+    .project-accordion-info p {
       display: none;
     }
 

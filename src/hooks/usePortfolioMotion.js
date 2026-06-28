@@ -150,14 +150,14 @@ export default function usePortfolioMotion(scopeRef) {
         },
       });
 
-      gsap.from(".project-swap-stage", {
+      gsap.from(".project-accordion-stage", {
         y: 120,
         autoAlpha: 0,
         clipPath: "inset(16% 0 10% 0)",
         duration: 1.65,
         ease: "power4.out",
         scrollTrigger: {
-          trigger: ".project-swap-stage",
+          trigger: ".project-accordion-stage",
           start: "top 84%",
           once: true,
         },

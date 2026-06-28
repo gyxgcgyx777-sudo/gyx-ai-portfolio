@@ -1,6 +1,5 @@
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BorderGlow from "./components/BorderGlow.jsx";
-import CardSwap, { Card } from "./components/CardSwap.jsx";
 import TiltedCard from "./components/TiltedCard.jsx";
 import usePortfolioMotion from "./hooks/usePortfolioMotion.js";
 
@@ -398,19 +397,25 @@ function Services() {
   );
 }
 
-const ProjectSwapCard = forwardRef(({ project, index, ...cardProps }, cardRef) => {
+function ProjectAccordionCard({ project, index, active, onSelect, onOpen }) {
+  const handleClick = () => {
+    if (active) {
+      onOpen(index);
+      return;
+    }
+    onSelect(index);
+  };
+
   return (
-    <Card
-      ref={cardRef}
-      customClass="project-swap-card"
+    <button
+      type="button"
+      className={`project-accordion-card${active ? " is-active" : ""}`}
       aria-label={`${project.title} 项目`}
-      {...cardProps}
+      aria-current={active ? "true" : undefined}
+      data-title={project.title}
+      onClick={handleClick}
     >
-      <div className="project-card-bar">
-        <span>{String(index + 1).padStart(2, "0")}</span>
-        <span>{project.type}</span>
-      </div>
-      <div className="project-media">
+      <div className="project-accordion-media">
         <img
           src={project.cover}
           alt={`${project.title} 项目封面`}
@@ -420,22 +425,33 @@ const ProjectSwapCard = forwardRef(({ project, index, ...cardProps }, cardRef) =
           decoding="async"
         />
       </div>
-      <div className="project-info">
+
+      <div className="project-accordion-shade" aria-hidden="true" />
+
+      <div className="project-accordion-label">
+        <span>{String(index + 1).padStart(2, "0")}</span>
+        <span>{project.type}</span>
+      </div>
+
+      <div className="project-accordion-info">
         <div>
           <h3>{project.title}</h3>
           <p>{project.description}</p>
         </div>
         <span className="project-open">Play project <i className="icon-arrow icon-arrow--up" aria-hidden="true" /></span>
       </div>
-    </Card>
+    </button>
   );
-});
-
-ProjectSwapCard.displayName = "ProjectSwapCard";
+}
 
 function Projects({ onOpen }) {
-  const swapRef = useRef(null);
   const [activeProject, setActiveProject] = useState(0);
+  const showPrevious = () => setActiveProject((current) => (
+    current === 0 ? projects.length - 1 : current - 1
+  ));
+  const showNext = () => setActiveProject((current) => (
+    current === projects.length - 1 ? 0 : current + 1
+  ));
 
   return (
     <section className="projects" id="projects" data-section="projects">
@@ -448,26 +464,22 @@ function Projects({ onOpen }) {
           <p className="section-intro">覆盖品牌广告、产品视觉、原创动画、IP 概念、实景合成与动态包装，展示从 AI 生成到成片交付的完整能力。</p>
         </div>
 
-        <div className="project-swap-stage reveal">
-          <CardSwap
-            ref={swapRef}
-            width="clamp(290px, 62vw, 940px)"
-            height="clamp(390px, 38vw, 590px)"
-            cardDistance={112}
-            verticalDistance={8}
-            delay={0}
-            onActiveChange={setActiveProject}
-            onCardClick={(index, isFront) => {
-              if (isFront) onOpen(index);
-            }}
-          >
+        <div className="project-accordion-stage reveal">
+          <div className="project-accordion" aria-label="精选项目列表">
             {projects.map((project, index) => (
-              <ProjectSwapCard key={project.title} project={project} index={index} />
+              <ProjectAccordionCard
+                key={project.title}
+                project={project}
+                index={index}
+                active={activeProject === index}
+                onSelect={setActiveProject}
+                onOpen={onOpen}
+              />
             ))}
-          </CardSwap>
+          </div>
 
           <div className="project-carousel-controls" aria-label="项目切换">
-            <button type="button" aria-label="上一个项目" onClick={() => swapRef.current?.previous()}>
+            <button type="button" aria-label="上一个项目" onClick={showPrevious}>
               <span className="carousel-arrow carousel-arrow--prev" aria-hidden="true" />
             </button>
             <div className="project-carousel-count" aria-live="polite">
@@ -475,7 +487,7 @@ function Projects({ onOpen }) {
               <span>/</span>
               <span>{String(projects.length).padStart(2, "0")}</span>
             </div>
-            <button type="button" aria-label="下一个项目" onClick={() => swapRef.current?.next()}>
+            <button type="button" aria-label="下一个项目" onClick={showNext}>
               <span className="carousel-arrow carousel-arrow--next" aria-hidden="true" />
             </button>
           </div>
