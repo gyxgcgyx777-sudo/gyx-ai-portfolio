@@ -413,6 +413,7 @@ function ProjectAccordionCard({ project, index, active, onSelect, onOpen }) {
       aria-label={`${project.title} 项目`}
       aria-current={active ? "true" : undefined}
       data-title={project.title}
+      data-project-index={index}
       onClick={handleClick}
     >
       <div className="project-accordion-media">
@@ -445,13 +446,75 @@ function ProjectAccordionCard({ project, index, active, onSelect, onOpen }) {
 }
 
 function Projects({ onOpen }) {
+  const accordionRef = useRef(null);
   const [activeProject, setActiveProject] = useState(0);
-  const showPrevious = () => setActiveProject((current) => (
-    current === 0 ? projects.length - 1 : current - 1
-  ));
-  const showNext = () => setActiveProject((current) => (
-    current === projects.length - 1 ? 0 : current + 1
-  ));
+
+  const scrollProjectIntoView = (index) => {
+    const container = accordionRef.current;
+    const card = container?.querySelector(`[data-project-index="${index}"]`);
+    if (!container || !card) return;
+
+    const left = card.offsetLeft - (container.clientWidth - card.offsetWidth) / 2;
+    container.scrollTo({ left: Math.max(left, 0), behavior: "smooth" });
+  };
+
+  const activateProject = (index, shouldScroll = true) => {
+    setActiveProject(index);
+    if (shouldScroll) requestAnimationFrame(() => scrollProjectIntoView(index));
+  };
+
+  const showPrevious = () => {
+    const nextIndex = activeProject === 0 ? projects.length - 1 : activeProject - 1;
+    activateProject(nextIndex);
+  };
+
+  const showNext = () => {
+    const nextIndex = activeProject === projects.length - 1 ? 0 : activeProject + 1;
+    activateProject(nextIndex);
+  };
+
+  useEffect(() => {
+    const container = accordionRef.current;
+    if (!container) return undefined;
+
+    let frame = 0;
+    const syncActiveFromScroll = () => {
+      frame = 0;
+      const containerRect = container.getBoundingClientRect();
+      const centerX = containerRect.left + containerRect.width / 2;
+      const cards = Array.from(container.querySelectorAll("[data-project-index]"));
+      let closestIndex = null;
+      let closestDistance = Infinity;
+
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(cardCenter - centerX);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = Number(card.dataset.projectIndex);
+        }
+      });
+
+      if (Number.isInteger(closestIndex)) {
+        setActiveProject((current) => (current === closestIndex ? current : closestIndex));
+      }
+    };
+
+    const handleScroll = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(syncActiveFromScroll);
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      container.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   return (
     <section className="projects" id="projects" data-section="projects">
@@ -465,14 +528,14 @@ function Projects({ onOpen }) {
         </div>
 
         <div className="project-accordion-stage reveal">
-          <div className="project-accordion" aria-label="精选项目列表">
+          <div ref={accordionRef} className="project-accordion" aria-label="精选项目列表">
             {projects.map((project, index) => (
               <ProjectAccordionCard
                 key={project.title}
                 project={project}
                 index={index}
                 active={activeProject === index}
-                onSelect={setActiveProject}
+                onSelect={activateProject}
                 onOpen={onOpen}
               />
             ))}
